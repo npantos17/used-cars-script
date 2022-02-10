@@ -2,27 +2,27 @@
   <div>
     <b-pagination
       v-model="currentPage"
-      :total-rows="cars.length"
+      :total-rows="sellers.length"
       :per-page="perPage"
-      aria-controls="cars-table"
+      aria-controls="sellers-table"
     ></b-pagination>
     <b-table
-      id="cars-table"
+      id="sellers-table"
       hover
       fixed
-      :items="cars"
+      :items="sellers"
       :fields="fields"
       small
       :per-page="perPage"
       :current-page="currentPage"
-
+      
     >
     </b-table>
     <b-pagination
       v-model="currentPage"
-      :total-rows="cars.length"
+      :total-rows="sellers.length"
       :per-page="perPage"
-      aria-controls="cars-table"
+      aria-controls="sellers-table"
     ></b-pagination>
 
     <!-- <b-table
@@ -39,8 +39,8 @@
         >
       </template>
     </b-table>
-    <h1 v-else>No cars currently availbale</h1>-->
-  </div> 
+    <h1 v-else>No cars currently availbale</h1> -->
+  </div>
 </template>
 
 <script>
@@ -48,11 +48,11 @@
   import { mapActions, mapState } from 'vuex';
 
   export default {
-    name: 'CarList',
+    name: 'SellerList',
 
     data() {
       return {
-        fields: ['id', 'sellerId', 'model', 'brand', 'year', 'price',{ key: 'id', tdClass: 'align-middle' }],
+        fields: ['id', 'name', 'email', 'address', 'rating',{ key: 'id', tdClass: 'align-middle' }],
         items: [],
         currentPage: 1,
         perPage: 10
@@ -61,7 +61,7 @@
 
     computed: {
       ...mapState([
-        'cars'
+        'sellers'
       ])
     },
 
@@ -83,7 +83,7 @@
     },
 
     mounted() {
-      this.cars.slice(this.currentPage * this.perPage, (this.currentPage + 1) * this.perPage).map( id => {
+      this.sellers.slice(this.currentPage * this.perPage, (this.currentPage + 1) * this.perPage).map( id => {
         this.getItem(id).then( obj => this.items.push(obj) );
       });
     },

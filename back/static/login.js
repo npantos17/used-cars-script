@@ -18,6 +18,7 @@ function init() {
                 if (el.msg) {
                     alert(el.msg);
                 } else {
+                    //console.log(el.token)
                     document.cookie = `token=${el.token};SameSite=Lax`;
                     window.location.href = 'index.html';
                 }

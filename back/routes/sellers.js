@@ -16,25 +16,26 @@ const Joi = require('joi')
      rating: Joi.number().required()
  })
 
-function authToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+// function authToken(req, res, next) {
+//     const authHeader = req.headers['authorization'];
+//     const token = authHeader && authHeader.split(' ')[1];
   
-    if (token == null) {
-        return res.status(401).json({ msg: 'Token je null' });
+//     if (token == null) {
+//         console.log("lolara")
+//         return res.status(401).json({ msg: 'Token je null' });
         
-    }
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+//     }
+//     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
     
-        if (err) return res.status(403).json({ msg: 'err' });
+//         if (err) return res.status(403).json({ msg: 'err' });
     
-        req.user = user;
+//         req.user = user;
     
-        next();
-    });
-}
+//         next();
+//     });
+// }
 
-route.use(authToken);
+// route.use(authToken);
 
 route.get('/sellers', (req, res) => {
 
@@ -51,6 +52,27 @@ route.get('/sellers/:id', (req, res) => {
         .catch( err => res.status(500).json(err) );
 
 });
+
+function authTokenSeller(req, res, next) {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+  
+    if (token == null) {
+        console.log("lolara")
+        return res.status(401).json({ msg: 'Token je null' });
+        
+    }
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    
+        if (err) return res.status(403).json({ msg: 'err' });
+    
+        req.user = user;
+    
+        next();
+    });
+}
+
+route.use(authTokenSeller);
 
 route.post('/sellers', (req, res) => {
     let { error } = Joi.validate(req.body, sema);

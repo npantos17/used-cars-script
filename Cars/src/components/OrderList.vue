@@ -2,15 +2,15 @@
   <div>
     <b-pagination
       v-model="currentPage"
-      :total-rows="cars.length"
+      :total-rows="orders.length"
       :per-page="perPage"
-      aria-controls="cars-table"
+      aria-controls="orders-table"
     ></b-pagination>
     <b-table
-      id="cars-table"
+      id="orders-table"
       hover
       fixed
-      :items="cars"
+      :items="orders"
       :fields="fields"
       small
       :per-page="perPage"
@@ -20,9 +20,9 @@
     </b-table>
     <b-pagination
       v-model="currentPage"
-      :total-rows="cars.length"
+      :total-rows="orders.length"
       :per-page="perPage"
-      aria-controls="cars-table"
+      aria-controls="orders-table"
     ></b-pagination>
 
     <!-- <b-table
@@ -48,11 +48,11 @@
   import { mapActions, mapState } from 'vuex';
 
   export default {
-    name: 'CarList',
+    name: 'OrderList',
 
     data() {
       return {
-        fields: ['id', 'sellerId', 'model', 'brand', 'year', 'price',{ key: 'id', tdClass: 'align-middle' }],
+        fields: ['id', 'carId', 'sellerId', 'buyerId', { key: 'id', tdClass: 'align-middle' }],
         items: [],
         currentPage: 1,
         perPage: 10
@@ -61,13 +61,13 @@
 
     computed: {
       ...mapState([
-        'cars'
+        'orders'
       ])
     },
 
     watch: {
       currentPage(nVal, oVal) {
-        this.cars.slice(this.currentPage * this.perPage, (this.currentPage + 1) * this.perPage).map( id => {
+        this.orders.slice(this.currentPage * this.perPage, (this.currentPage + 1) * this.perPage).map( id => {
           this.getItem(id).then( obj => this.items.push(obj) );
         });
       },
@@ -83,7 +83,7 @@
     },
 
     mounted() {
-      this.cars.slice(this.currentPage * this.perPage, (this.currentPage + 1) * this.perPage).map( id => {
+      this.orders.slice(this.currentPage * this.perPage, (this.currentPage + 1) * this.perPage).map( id => {
         this.getItem(id).then( obj => this.items.push(obj) );
       });
     },

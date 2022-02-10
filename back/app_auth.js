@@ -7,20 +7,20 @@ require('dotenv').config();
 
 const app = express();
 
-// var corsOptions = {
-//     origin: 'http://127.0.0.1:8000',
-//     optionsSuccessStatus: 200
-// }
 var corsOptions = {
-    origin: 'http://127.0.0.1:8080',
+    origin: '*',
     optionsSuccessStatus: 200
 }
+// var corsOptions = {
+//     origin: 'http://127.0.0.1:8080',
+//     optionsSuccessStatus: 200
+// }
 
 app.use(express.json());
 app.use(cors(corsOptions));
 
 
-app.post('/register', (req, res) => {
+app.post('/api_register', (req, res) => {
 
     const obj = {
         name: req.body.name,
@@ -75,6 +75,7 @@ app.post('/api_login', (req, res) => {
                 };
         
                 const token = jwt.sign(obj, process.env.ACCESS_TOKEN_SECRET);
+                
                 res.json({ token: token });
                 
             } else {

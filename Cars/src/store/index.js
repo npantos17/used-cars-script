@@ -6,6 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     cars: [],
+    sellers: [],
+    orders: [],
     token: '',
     // user: {}
   },
@@ -13,10 +15,22 @@ export default new Vuex.Store({
     setCars(state, cars){
       this.cars = cars
     },
+    clearCars(state){
+      this.cars = []
+    },
+    setSellers(state, sellers){
+      this.sellers = sellers
+    },
+    addSeller(state, seller){
+      state.sellers.push(seller)
+    },
     addCar(state, car){
       state.cars.push(car)
     },
-    setToken: (state, token) => {
+    addOrder(state, order){
+      state.orders.push(order)
+    },
+    setToken (state, token){
       state.token = token;
       localStorage.token = token;
     },
@@ -32,13 +46,44 @@ export default new Vuex.Store({
 
   actions: {
     fetchCars({commit, state}){
-      fetch('http://127.0.0.1:8000/admin/cars/', { method: 'get', headers: { 'Authorization': state.token } })
-        .then( obj => obj.json() )
-        .then( res => commit('setCars', res.cars));
-
+      fetch('http://127.0.0.1:8000/admin/cars/', { method: 'get', headers: { 'Authorization': `Bearer ${state.token}` } })
+        .then( res => res.json() )
+        .then( data => 
+          {
+            commit('clearCars')
+            data.forEach(el => {
+              
+              commit('addCar', el)
+             });
+            //  //commit('setCars', cars1)
+            //commit('setCars', data.array)
+          })
+          
+    },
+    fetchSellers({commit, state}){
+      fetch('http://127.0.0.1:8000/admin/sellers/', { method: 'get', headers: { 'Authorization': `Bearer ${state.token}` } })
+        .then( res => res.json() )
+        .then( data => 
+          {
+            data.forEach(el => {
+              commit('addSeller', el)
+            });
+          })
+          //commit('setCars', obj))
+    },
+    fetchOrders({commit, state}){
+      fetch('http://127.0.0.1:8000/admin/orders/', { method: 'get', headers: { 'Authorization': `Bearer ${state.token}` } })
+        .then( res => res.json() )
+        .then( data => 
+          {
+            data.forEach(el => {
+              commit('addOrder', el)
+            });
+          })
+          //commit('setCars', obj))
     },
     register({ commit }, obj) {
-      fetch('/http://127.0.0.1:9000/api_register', {
+      fetch('http://127.0.0.1:9000/api_register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(obj)
@@ -56,7 +101,9 @@ export default new Vuex.Store({
         if (tkn.msg) {
           alert(tkn.msg);
         } else {
+          //console.log(tkn.token)
           commit('setToken', tkn.token)
+          document.cookie = `token=${tkn.token};SameSite=Lax`;
         }
       });
     },

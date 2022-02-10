@@ -2,6 +2,8 @@ function init() {
 
     const cookies = document.cookie.split('=');
     const token = cookies[cookies.length - 1];
+    //const token = cookies[0];
+    console.log(token)
     
     fetch('http://127.0.0.1:8000/admin/sellers', {
          headers: {

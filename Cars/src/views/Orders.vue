@@ -1,21 +1,21 @@
 <template>
   <div id="app">
     <Header :subtitle="subtitle"/>
-    <CarList />
+    <OrderList />
   </div>
 </template>
 
 <script>
   import Header from '@/components/Header.vue';
-  import CarList from '@/components/CarList.vue';
+  import OrderList from '@/components/OrderList.vue';
   import { mapActions, mapState, mapMutations  } from 'vuex';
 
   export default {
-    name: 'Cars',
+    name: 'Orders',
     
     components: {
       Header,
-      CarList
+      OrderList
     },
 
     data() {
@@ -26,7 +26,7 @@
 
     computed: {
       ...mapState([
-        'cars',
+        'orders',
         'token'
       ])
     },  
@@ -42,7 +42,7 @@
 
     methods: {
        ...mapActions([
-         'fetchCars'
+         'fetchOrders'
        ]),
        ...mapMutations([
         'removeToken',
@@ -62,7 +62,7 @@
           this.setToken(localStorage.token);
           //console.log("eo ga token")
        }
-       this.fetchCars();
+       this.fetchOrders();
         
     },
 

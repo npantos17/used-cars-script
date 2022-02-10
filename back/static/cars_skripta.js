@@ -15,7 +15,11 @@ function init() {
             const lst = document.getElementById('carList');
 
             data.forEach( el => {
+                if(el.msg){
+                    alert(el.msg)
+                }else{
                 lst.innerHTML += `<li class="id${data.id}">ID: ${el.id}, sellerID: ${data.sellerID}, Brand: ${el.brand}, Model: ${el.model}, Year: ${el.year}, Price: ${el.price}, Order ID: ${el.OrderId}</li>`;
+                }
             });
         });
 
